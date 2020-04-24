@@ -1,15 +1,26 @@
-import { Router , Request , Response} from 'express'
+import { Router, Request, Response } from "express";
+import { TModel, TodoModel } from "../Models/todoModel";
 
-const router : Router = Router()
+const router: Router = Router();
 
+router.post("/", async (req: Request, res: Response) => {
+  const todo: TModel = req.body;
 
-router.get('/' , (_ : Request , res : Response ) => {
+  const newTodo = new TodoModel(todo);
 
-  res.send({
-      "This is your todo list" : "dddd"
-  })
+  try {
+    const finalTodo = await newTodo.save();
+    res.status(200).send(finalTodo);
+  } catch (err) {
+    res.status(400).send({ error: err.errors.owner.message });
+  }
+});
 
-})
+router.get("/", async (req: Request, res: Response) => {
+  try {
+    const todos = await TodoModel.find();
+    res.status(200).send(todos);
+  } catch (err) {}
+});
 
-
-export {router as TodoRoute}
+export { router as TodoRoute };

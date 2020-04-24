@@ -18,9 +18,10 @@ const TodoSchema: Schema = new Schema({
 
   owner: {
     type: String,
+    required: true,
   },
 });
 
 var TodoModel: Model<TModel> = model<TModel>("Todo", TodoSchema);
 
-export { TodoModel };
+export { TodoModel, TModel };
