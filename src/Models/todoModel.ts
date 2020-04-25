@@ -1,5 +1,5 @@
 import { model, Schema, Model, Document } from "mongoose";
-interface TModel extends Document {
+interface TodoInterface extends Document {
   todo: string;
   date: string;
   owner: string;
@@ -22,6 +22,6 @@ const TodoSchema: Schema = new Schema({
   },
 });
 
-var TodoModel: Model<TModel> = model<TModel>("Todo", TodoSchema);
+var TodoModel: Model<TodoInterface> = model<TodoInterface>("Todo", TodoSchema);
 
-export { TodoModel, TModel };
+export { TodoModel, TodoInterface };

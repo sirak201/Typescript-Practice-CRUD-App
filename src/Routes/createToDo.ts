@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
-import { TModel, TodoModel } from "../Models/todoModel";
+import { TodoInterface, TodoModel } from "../Models/todoModel";
 
 const router: Router = Router();
 
 router.post("/", async (req: Request, res: Response) => {
-  const todo: TModel = req.body;
+  const todo: TodoInterface = req.body;
 
   const newTodo = new TodoModel(todo);
 
@@ -16,7 +16,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", async (_: Request, res: Response) => {
   try {
     const todos = await TodoModel.find();
     res.status(200).send(todos);
