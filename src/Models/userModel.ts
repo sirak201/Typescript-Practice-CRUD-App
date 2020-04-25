@@ -10,6 +10,28 @@ interface UserInterface extends Document {
   hashPassword(password: string): Promise<string>;
 }
 
+class SignIn {
+  email: string;
+  password: string;
+
+  constructor(email: string, password: string) {
+    this.email = email;
+    this.password = password;
+  }
+
+  async compareHashPassword(hashPassword: string): Promise<boolean> {
+    return await bcrypt.compare(this.password, hashPassword);
+  }
+
+  async findUserByEmail(): Promise<UserInterface> {
+    try {
+      return await UserModel.findOne({ email: this.email });
+    } catch (err) {
+      throw err;
+    }
+  }
+}
+
 async function hashPassword(password: string): Promise<string> {
   return await bcrypt.hash(password, 10);
 }
@@ -46,4 +68,4 @@ const userSchema: Schema = new Schema({
 
 var UserModel: Model<UserInterface> = model("User", userSchema);
 
-export { UserInterface, UserModel, validatePasswords, hashPassword };
+export { UserInterface, UserModel, validatePasswords, hashPassword, SignIn };
